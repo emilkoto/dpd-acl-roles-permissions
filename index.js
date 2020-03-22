@@ -39,10 +39,17 @@
   }
 
   var getResourceNameFromUrl = function(url){
-    var str = String(url).split("/")
+     var str = String(url).replace(/\?.*/, "").split("/")
     str.splice(0, 1);
-    let res = str.join('');
-    res =  res.replace('-', '');
+    let res = '';
+    while (str.length > 0) {
+      res = str.join('');
+      res = res.replace('-', '');
+
+      let a = Object.keys(ctx.dpd).find(key => key == res);
+      if (a) break;
+      else str.pop();
+    }
     return res ? res.replace(/\?.*/, "") : "";
   }
 
